@@ -83,6 +83,15 @@ class Annotator:
             self.im = im
         self.lw = line_width or max(round(sum(im.shape) / 2 * 0.003), 2)  # line width
 
+    def trajectories(self, trajectories: dict):
+        # Add trajectories to image
+        for id, trajectory in trajectories.items():
+            if len(trajectory) == 1:
+                continue
+            for i in range(1, len(trajectory)):
+                cv2.line(self.im, trajectory[i - 1], trajectory[i], colors(id), self.lw)
+                
+
     def box_label(self, box, label='', color=(128, 128, 128), txt_color=(255, 255, 255)):
         # Add one xyxy box to image with label
         if self.pil or not is_ascii(label):
